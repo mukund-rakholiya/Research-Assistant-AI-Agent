@@ -58,3 +58,14 @@ def ocr_fallback(file_path):
     """Use OCR when text extraction fails"""
     images = convert_from_path(file_path)
     return "\n".join([pytesseract.image_to_string(img) for img in images])
+
+# This method retireves test fromthe pdf
+def process_pdf(file_path):
+    """Extract Text from PDF with OCR fallback"""
+    try:
+        text = "\n".join([page.extract_text() for page in PdfReader(file_path).pages])
+        return text if text.strip() else ocr_fallback(file_path)
+
+    except Exception as e:
+        print(f"PDF Error: {e}")
+        return ocr_fallback(file_path)
