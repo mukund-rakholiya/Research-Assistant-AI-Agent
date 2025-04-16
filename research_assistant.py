@@ -31,3 +31,7 @@ os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ["LANGCHAIN_PROJECT"] = LANGCHAIN_PROJECT
 os.environ["SERPER_API_KEY"] = SERPER_API_KEY
 os.environ["GROQ_API_KEY"] = GROQ_API_KEY
+
+# Initializing components
+# google embeddings created
+embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001", google_api_key = GOOGLE_API_KEY)
