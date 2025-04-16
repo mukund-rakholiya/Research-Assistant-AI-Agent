@@ -69,3 +69,13 @@ def process_pdf(file_path):
     except Exception as e:
         print(f"PDF Error: {e}")
         return ocr_fallback(file_path)
+
+# this method generates summary using Gemini
+def generate_summary(text):
+    """Crete bullet-point summary using Gemini"""
+    prompt = f"""Summarize this research in bullet points:
+    - key findings
+    - Methodology
+    - Conclusions\n\n{text[:15000]}"""
+    
+    return gemini_llm.invoke(prompt).content
