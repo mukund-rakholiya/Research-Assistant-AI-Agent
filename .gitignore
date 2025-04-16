@@ -1,5 +1,5 @@
 # Ignore Python virtual environment
-venv/
+.venv/
 chroma.db/
 
 # Ignore environment variable files
