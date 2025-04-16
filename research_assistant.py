@@ -51,3 +51,10 @@ groq_llm = ChatGroq(
     temperature = 0,
     model = "llama3-8b-8192"
 )
+
+# Core functions
+# this method extracts text fom the pdf if "process_pdf" function is unale to do so
+def ocr_fallback(file_path):
+    """Use OCR when text extraction fails"""
+    images = convert_from_path(file_path)
+    return "\n".join([pytesseract.image_to_string(img) for img in images])
