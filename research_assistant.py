@@ -79,3 +79,26 @@ def generate_summary(text):
     - Conclusions\n\n{text[:15000]}"""
     
     return gemini_llm.invoke(prompt).content
+
+# this method stores the document in vector store / chroma-db
+def store_document(text, source):
+    """Split and store text in vector database"""
+    # this line is used to create unique hash code for document
+    doc_id = hashlib.md5(source.encode()).hexdigest()
+    
+    # spilt the text in to chunks
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size = 1000,
+        chunk_overlap = 200
+    )
+    
+    # Ccreat  documents with metadata
+    split_docs = splitter.create_documents([text])
+    for doc in split_docs:
+        doc.metadata["source"]  = source
+        doc.metadata["doc_id"] = doc_id
+    
+    # store the chunks into chroma/vector-store
+    vectorStore.add_documents(split_docs)
+    
+    return doc_id
