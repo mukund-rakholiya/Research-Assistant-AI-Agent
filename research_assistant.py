@@ -35,3 +35,8 @@ os.environ["GROQ_API_KEY"] = GROQ_API_KEY
 # Initializing components
 # google embeddings created
 embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001", google_api_key = GOOGLE_API_KEY)
+
+vectorStore = Chroma(
+    embedding_function = embeddings, 
+    persist_directory = "./chroma.db"
+)
