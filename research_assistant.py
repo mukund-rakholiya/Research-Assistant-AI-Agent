@@ -40,3 +40,8 @@ vectorStore = Chroma(
     embedding_function = embeddings, 
     persist_directory = "./chroma.db"
 )
+
+groq_llm = ChatGroq(
+    temperature = 0,
+    model = "llama3-8b-8192"
+)
