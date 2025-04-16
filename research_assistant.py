@@ -13,3 +13,6 @@ import requests
 from bs4 import BeautifulSoup
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
+
+# Declaring all API keys
+load_dotenv()
