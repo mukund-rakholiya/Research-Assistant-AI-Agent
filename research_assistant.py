@@ -41,6 +41,12 @@ vectorStore = Chroma(
     persist_directory = "./chroma.db"
 )
 
+gemini_llm = ChatGoogleGenerativeAI(
+    model = "gemini-2.0-flash",
+    temperature = 0.3,
+    api_key = GOOGLE_API_KEY
+)
+
 groq_llm = ChatGroq(
     temperature = 0,
     model = "llama3-8b-8192"
