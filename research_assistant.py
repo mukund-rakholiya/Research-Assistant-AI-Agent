@@ -102,3 +102,20 @@ def store_document(text, source):
     vectorStore.add_documents(split_docs)
     
     return doc_id
+
+# This method generates answer based on context using Groq
+def ask_question(question, doc_id):
+    """Answer question about stored documents"""
+    docs = vectorStore.similarity_search(
+        query = question,
+        filter = {"doc_id": doc_id},
+        k = 1
+    )
+    
+    # checking if any documents were returned
+    if not docs:
+        return "No relevent documents found."
+    
+    context = "\n\n".join([d.page_content for d in docs])
+    prompt = f"Answer based on context:\nQ: {question}\n Context: {context}"
+    return groq_llm.invoke(prompt)
