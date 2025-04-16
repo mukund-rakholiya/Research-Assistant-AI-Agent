@@ -140,3 +140,20 @@ def load_webpage(input_path):
     except Exception as e:
         print(f"Error fetching the webpage: {e}")
         return ""
+    
+# Main Workflow
+def research_assistant(input_path, question = None):
+    """End-to-End processing pipeline"""
+    
+    # Input process
+    text = process_pdf(input_path) if input_path.endswith(".pdf") else load_webpage(input_path)
+    doc_id = store_document(text, input_path)
+    
+    # Generate output
+    summary = generate_summary(text)
+    print("SUMMARY: \n", summary)
+    
+    # Q & A if requested
+    if question:
+        answer = ask_question(question, doc_id)
+        print("\nANSWER: ", answer)
