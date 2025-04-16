@@ -119,3 +119,24 @@ def ask_question(question, doc_id):
     context = "\n\n".join([d.page_content for d in docs])
     prompt = f"Answer based on context:\nQ: {question}\n Context: {context}"
     return groq_llm.invoke(prompt)
+
+# extracts the data from the web-url
+def load_webpage(input_path):
+    """Load tet from a webpage given its URL"""
+    try:
+        # send a GET request to the URL
+        response = requests.get(input_path)
+        response.raise_for_status() # thi will raise an error for bas responses
+        
+        # this will pasrse the HTML content
+        soup = BeautifulSoup(response.text, "html.parser")
+        
+        # exract the text fom the webpage
+        # can be customized to extract specific elements if needed
+        text = soup.get_text(separator = "\n", strip = True)
+        
+        return text
+
+    except Exception as e:
+        print(f"Error fetching the webpage: {e}")
+        return ""
