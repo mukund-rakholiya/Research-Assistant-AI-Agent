@@ -8,3 +8,13 @@ st.set_page_config(
     layout = "wide"
 )
 st.title("📚 Smart Research Assistant")
+
+# sidebar for input
+with st.sidebar:
+    st.header("Upload PDF")
+    uploaded_file = st.file_uploader("Choose PDF", type = "pdf")
+    url = st.text_input("Or enter URL (arXiv or article):")
+    
+    st.divider()
+    st.markdown("**Citation Style**")
+    citation_style = st.radio("Format:", ["APA", "MAL"], horizontal = True)
