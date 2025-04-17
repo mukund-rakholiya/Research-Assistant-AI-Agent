@@ -25,6 +25,13 @@ with st.sidebar:
         if uploaded_pdf:
             st.session_state.uploaded_pdfs = st.session_state.get("uploaded_pdfs", []) + [uploaded_pdf]
             st.session_state.show_pdf_uploader = False
+
+    # Show URL input if triggered
+    if st.session_state.get("show_url_input", False):
+        url_input = st.text_input("Enter URL")
+        if url_input:
+            st.session_state.entered_urls = st.session_state.get("entered_urls", []) + [url_input]
+            st.session_state.show_url_input = False
     
     st.divider()
     st.markdown("**Citation Style**")
