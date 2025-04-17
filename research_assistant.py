@@ -142,18 +142,31 @@ def load_webpage(input_path):
         return ""
     
 # Main Workflow
-def research_assistant(input_path, question = None):
+def research_assistant(input_path, citation_style = None, question = None):
     """End-to-End processing pipeline"""
-    
-    # Input process
-    text = process_pdf(input_path) if input_path.endswith(".pdf") else load_webpage(input_path)
-    doc_id = store_document(text, input_path)
-    
-    # Generate output
-    summary = generate_summary(text)
-    print("SUMMARY: \n", summary)
-    
-    # Q & A if requested
-    if question:
-        answer = ask_question(question, doc_id)
-        print("\nANSWER: ", answer)
+    try:
+        # Input process
+        text = process_pdf(input_path) if input_path.endswith(".pdf") else load_webpage(input_path)
+        doc_id = store_document(text, input_path)
+        
+        # Generate output
+        summary = generate_summary(text)
+        citation = f"[{citation_style}] Citation for {input_path}"
+        
+        # Q & A if requested
+        answer = None
+        if question:
+            answer = ask_question(question, doc_id)
+            
+            answer_content = answer.content
+
+        return {
+                "summary": summary,
+                "citation": citation,
+                "doc_id": doc_id,
+                "answer": answer_content if answer else None
+        }
+
+    except Exception as e:
+        print("Error in research_assistant:", e)
+        return None
