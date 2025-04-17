@@ -37,55 +37,65 @@ with st.sidebar:
     st.markdown("**Citation Style**")
     citation_style = st.radio("Format:", ["APA", "MAL"], horizontal = True)
 
-if uploaded_file or url:
-    # saving uploaded file
-    if (uploaded_file):
-        file_path = os.path.join("uploads", uploaded_file.name)
-        with open(file_path, "wb") as f:
-            f.write(uploaded_file.getbuffer())
-        input_source = file_path
-    else :
-        input_source = url
-    
-    # process document
-    with st.spinner("Analyzing document..."):
-        result = research_assistant(input_source, citation_style)
-        print("DEBUG RESULT:", result)
 
-    # display results
-    st.subheader("Summary")
-    st.markdown(result["summary"])
-    
-    st.subheader("Citation")
-    st.code(result["citation"], language = "text")
-    
-    # Q & A section
+# main content area
+# Ensure session state lists exist
+if "uploaded_pdfs" not in st.session_state:
+    st.session_state.uploaded_pdfs = []
+if "entered_urls" not in st.session_state:
+    st.session_state.entered_urls = []
+if "doc_ids" not in st.session_state:
+    st.session_state.doc_ids = []
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# Process and display all added documents
+if st.session_state.uploaded_pdfs or st.session_state.entered_urls:
+
+    st.subheader("📄 Processed Documents")
+    with st.spinner("Analyzing documents..."):
+        for uploaded_pdf in st.session_state.uploaded_pdfs:
+            file_path = os.path.join("uploads", uploaded_pdf.name)
+            with open(file_path, "wb") as f:
+                f.write(uploaded_pdf.getbuffer())
+            
+            result = research_assistant(file_path, citation_style)
+            st.session_state.doc_ids.append(result["doc_id"])
+            st.markdown(f"✅ **{uploaded_pdf.name}** processed.")
+            st.markdown(result["summary"])
+            st.code(result["citation"], language="text")
+
+        for url in st.session_state.entered_urls:
+            result = research_assistant(url, citation_style)
+            st.session_state.doc_ids.append(result["doc_id"])
+            st.markdown(f"🌐 **{url}** processed.")
+            st.markdown(result["summary"])
+            st.code(result["citation"], language="text")
+
+    # Q&A section
     st.divider()
-    st.subheader("Document Q&A")
-    
-    if ("messages" not in st.session_state):
-        st.session_state.messages = []
-    
+    st.subheader("💬 Ask Questions Across All Documents")
+
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
-    
-    if prompt := st.chat_input("Ask about this document..."):
+
+    if prompt := st.chat_input("Ask a question about any document..."):
         st.session_state.messages.append({"role": "user", "content": prompt})
-    
-        # adding the user's answer to the session
+        
         with st.chat_message("user"):
             st.markdown(prompt)
-        
-        # fetchig the response of assistant 
+
         with st.spinner("Generating answer..."):
-            response = ask_question(prompt, result["doc_id"])
-        
-        # adding the assistant's answer to the session
-        st.session_state.messages.append({"role": "assistant", "content": response.content})
-        
+            combined_answer = ""
+            for doc_id in st.session_state.doc_ids:
+                answer = ask_question(prompt, doc_id)
+                combined_answer += f"\n\n---\n📄 **Source:** {doc_id[:6]}\n{answer.content}"
+
+        st.session_state.messages.append({"role": "assistant", "content": combined_answer})
+
         with st.chat_message("assistant"):
-            st.markdown(response.content)
-    
+            st.markdown(combined_answer)
+
 else:
-    st.info("Upload a PDF or enter URL to get started")
+    st.info("Use the sidebar to add PDFs or URLs to begin.")
