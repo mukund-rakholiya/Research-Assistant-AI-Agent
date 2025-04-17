@@ -58,6 +58,10 @@ if uploaded_file or url:
         # adding the user's answer to the session
         with st.chat_message("user"):
             st.markdown(prompt)
+        
+        # fetchig the response of assistant 
+        with st.spinner("Generating answer..."):
+            response = ask_question(prompt, result["doc_id"])
     
 else:
     st.info("Upload a PDF or enter URL to get started")
