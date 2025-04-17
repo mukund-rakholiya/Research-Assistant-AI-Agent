@@ -55,6 +55,7 @@ if st.session_state.uploaded_pdfs or st.session_state.entered_urls:
     st.subheader("📄 Processed Documents")
     with st.spinner("Analyzing documents..."):
         for uploaded_pdf in st.session_state.uploaded_pdfs:
+            os.makedirs("uploads", exist_ok=True)
             file_path = os.path.join("uploads", uploaded_pdf.name)
             with open(file_path, "wb") as f:
                 f.write(uploaded_pdf.getbuffer())

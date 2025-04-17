@@ -1,6 +1,7 @@
 # Ignore Python virtual environment
 .venv/
 chroma.db/
+uploads/
 
 # Ignore environment variable files
 .env
