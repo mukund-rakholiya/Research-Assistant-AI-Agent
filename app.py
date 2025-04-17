@@ -11,7 +11,14 @@ st.title("📚 Smart Research Assistant")
 
 # sidebar for input
 with st.sidebar:
-    st.header("Upload PDF")
+    st.header("Add Documents")
+    # buttons to import documents
+    if st.button("➕ Add PDF"):
+        st.session_state.show_pdf_uploader = True
+    
+    if st.button("🔗 Add URL"):
+        st.session_state.show_url_input = True
+    
     uploaded_file = st.file_uploader("Choose PDF", type = "pdf")
     url = st.text_input("Or enter URL (arXiv or article):")
     
