@@ -2,6 +2,8 @@
 .venv/
 chroma.db/
 uploads/
+temp.py
+.gitignore
 
 # Ignore environment variable files
 .env

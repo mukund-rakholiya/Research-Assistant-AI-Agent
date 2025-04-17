@@ -61,7 +61,9 @@ if st.session_state.uploaded_pdfs or st.session_state.entered_urls:
                 f.write(uploaded_pdf.getbuffer())
             
             result = research_assistant(file_path, citation_style)
-            st.session_state.doc_ids.append(result["doc_id"])
+            if result["doc_id"] not in st.session_state.doc_ids:
+                st.session_state.doc_ids.append(result["doc_id"])
+
             st.markdown(f"✅ **{uploaded_pdf.name}** processed.")
             st.markdown(result["summary"])
             st.code(result["citation"], language="text")
