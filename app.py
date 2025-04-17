@@ -34,5 +34,12 @@ if uploaded_file or url:
         result = research_assistant(input_source, citation_style)
         print("DEBUG RESULT:", result)
 
+    # display results
+    st.subheader("Summary")
+    st.markdown(result["summary"])
+    
+    st.subheader("Citation")
+    st.code(result["citation"], language = "text")
+    
 else:
     st.info("Upload a PDF or enter URL to get started")
