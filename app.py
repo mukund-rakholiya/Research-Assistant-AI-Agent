@@ -55,5 +55,9 @@ if uploaded_file or url:
     if prompt := st.chat_input("Ask about this document..."):
         st.session_state.messages.append({"role": "user", "content": prompt})
     
+        # adding the user's answer to the session
+        with st.chat_message("user"):
+            st.markdown(prompt)
+    
 else:
     st.info("Upload a PDF or enter URL to get started")
