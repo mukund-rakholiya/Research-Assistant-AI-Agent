@@ -20,7 +20,7 @@ with st.sidebar:
     citation_style = st.radio("Format:", ["APA", "MAL"], horizontal = True)
 
 if uploaded_file or url:
-     # saving uploaded file
+    # saving uploaded file
     if (uploaded_file):
         file_path = os.path.join("uploads", uploaded_file.name)
         with open(file_path, "wb") as f:
@@ -28,6 +28,11 @@ if uploaded_file or url:
         input_source = file_path
     else :
         input_source = url
+    
+    # process document
+    with st.spinner("Analyzing document..."):
+        result = research_assistant(input_source, citation_style)
+        print("DEBUG RESULT:", result)
 
 else:
     st.info("Upload a PDF or enter URL to get started")
