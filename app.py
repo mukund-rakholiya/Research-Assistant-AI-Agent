@@ -18,3 +18,9 @@ with st.sidebar:
     st.divider()
     st.markdown("**Citation Style**")
     citation_style = st.radio("Format:", ["APA", "MAL"], horizontal = True)
+
+if uploaded_file or url:
+    pass
+
+else:
+    st.info("Upload a PDF or enter URL to get started")
