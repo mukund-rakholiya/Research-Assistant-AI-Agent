@@ -19,8 +19,12 @@ with st.sidebar:
     if st.button("🔗 Add URL"):
         st.session_state.show_url_input = True
     
-    uploaded_file = st.file_uploader("Choose PDF", type = "pdf")
-    url = st.text_input("Or enter URL (arXiv or article):")
+    # Show uploader if triggered
+    if st.session_state.get("show_pdf_uploader", False):
+        uploaded_pdf = st.file_uploader("Upload PDF", type="pdf")
+        if uploaded_pdf:
+            st.session_state.uploaded_pdfs = st.session_state.get("uploaded_pdfs", []) + [uploaded_pdf]
+            st.session_state.show_pdf_uploader = False
     
     st.divider()
     st.markdown("**Citation Style**")
