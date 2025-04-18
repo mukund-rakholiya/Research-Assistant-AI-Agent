@@ -1,16 +1,16 @@
 # 🧠 Research Assistant AI Agent
 
-A powerful and lightweight AI-powered research assistant that can:
-- Extract and summarize content from **PDFs or web pages**
-- Store and manage documents in a **vector database**
-- Allow **interactive question-answering** over the content using state-of-the-art LLMs (Gemini & LLaMA3)
-- Provide **citations** in your chosen format (APA, MAL)
-
+A powerful and lightweight AI-powered research assistant that can: 
+- Extract and summarize content from **PDFs or web pages** 
+- Store and manage documents in a **vector database** 
+- Allow **interactive question-answering** over the content using state-of-the-art LLMs (Gemini & LLaMA3) 
+- Provide **citations** in your chosen format (APA, MAL) 
+ 
 Built using [LangChain](https://www.langchain.com/), [Streamlit](https://streamlit.io/), Google Gemini, and Groq’s LLaMA3.
-
----
-
-## 🚀 Features
+ 
+--- 
+ 
+## 🚀 Features 
 
 - 📄 **Upload PDFs** or 🌐 **Paste URLs** to analyze research papers and online content
 - ✂️ Automatic **OCR fallback** for scanned PDFs
@@ -19,7 +19,7 @@ Built using [LangChain](https://www.langchain.com/), [Streamlit](https://streaml
 - ❓ Ask **follow-up questions** and get contextual answers via Groq's LLaMA3
 - 🔖 Auto-generate **citations** for each document
 
----
+--- 
 
 ## 🛠️ Installation
 
